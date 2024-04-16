@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { notification } from "antd";
-import RoomServices from "../../../services/room.services";
+import RoomService from "../../../services/room.services";
 import { nanoid } from "nanoid";
 
 const AddRooms = () => {
@@ -21,11 +21,16 @@ const AddRooms = () => {
   }, []);
 
   const getAllRooms = async () => {
-    const data = await RoomServices.getAllRooms();
+    const data = await RoomService.getAllRooms();
     setAllRooms(data);
   };
 
-  const openNotification = () => {
+  const updateRoomInfo = async (id) => {
+    const updatedRoomData = await RoomService.updateRoom(id, room);
+    console.log("updated room data " + JSON.stringify(updatedRoomData));
+  };
+
+  const openNotification = async () => {
     // call addRooms method from room services
     const enteredTitle = document.getElementById("Room Title").value;
     if (allRooms.some((room) => room.Title === enteredTitle)) {
@@ -34,13 +39,21 @@ const AddRooms = () => {
         description: "Please try again.",
       });
     } else {
-      setRoom({ ...room, Id: nanoid(12) });
+      // setRoom({ ...room, Id: nanoid(12) });
+      const docRef = await RoomService.addRooms(room);
+      alert("Room added successfully!");
+      console.log(docRef.id);
+      let id;
+      id = docRef.id;
+      setRoom((room.Id = id));
+
       if (document.getElementById("RoomIsAvailbale").checked == true) {
         setRoom({ ...room, isAvailable: true });
       } else {
         setRoom({ ...room, isAvailable: false });
       }
-      RoomServices.addRooms(room);
+      updateRoomInfo(id);
+      // RoomServices.addRooms(room);
 
       notification.open({
         message: `Successfully added room ${room.Title}!`,

@@ -37,10 +37,6 @@ const Login = () => {
     navigate("/dashboard/rooms-list");
   };
 
-  const handleGoogleSignIn = async () => {
-    // Google sign in logic
-  };
-
   return (
     <div>
       <div className="">

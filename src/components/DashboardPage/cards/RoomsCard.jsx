@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import pencil from "../../../assests/pencil.png";
 import { Modal, notification } from "antd";
-import RoomServices from "../../../services/room.services";
+import RoomService from "../../../services/room.services";
+import { useNavigate } from "react-router-dom";
+
+let expRoom = "";
 
 const RoomsCard = ({ room, user_role }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [updatedRoom, setUpdatedRoom] = useState(room);
+  const navigate = useNavigate();
+
+  const updateRoomInfo = async (id) => {
+    const updatedRoomData = await RoomService.updateRoom(id, room);
+    console.log("updated room data " + JSON.stringify(updatedRoomData));
+  };
+
+  const deleteRoom = async (id) => {
+    console.log("Deleting room with id: " + id);
+    await RoomService.deleteRoom(id);
+  };
 
   const showModal = () => {
     setOpen(true);
@@ -22,7 +36,7 @@ const RoomsCard = ({ room, user_role }) => {
       setConfirmLoading(false);
     }, 2000);
 
-    const data = await RoomServices.updateRoom(room.Id, updatedRoom);
+    const data = await RoomService.updateRoom(room.Id, updatedRoom);
     console.log(data);
     setUpdatedRoom(data);
   };
@@ -32,21 +46,20 @@ const RoomsCard = ({ room, user_role }) => {
     setOpen(false);
   };
 
-  const deleteRoom = () => {
-    RoomServices.deleteRoom(room.Id);
-    notification.open({
-      message: "Room Deleted",
-      description: `${room.Title} has been deleted.`,
-    });
-  };
-
   const updateRoom = () => {
     // open modal to update room info
     showModal();
   };
 
   return (
-    <div>
+    <div
+      onClick={() => {
+        if (user_role !== "admin") {
+          expRoom = updatedRoom;
+          navigate(`/dashboard/book-rooms`);
+        }
+      }}
+    >
       <div className="flex flex-col max-w-[400px] shadow-[0_0_10px_rgba(8,7,16,0.6)] rounded-xl p-5">
         {user_role === "admin" && (
           <div className="flex flex-row justify-end gap-1">
@@ -286,5 +299,5 @@ const RoomsCard = ({ room, user_role }) => {
     </div>
   );
 };
-
+export { expRoom };
 export default RoomsCard;

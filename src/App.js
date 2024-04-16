@@ -8,6 +8,7 @@ import {
   RoomsList,
 } from "./components/DashboardPage/pages";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
+import BookingRoom from "./components/DashboardPage/pages/BookingRoom";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,7 +38,7 @@ function App() {
         },
         {
           path: "/dashboard/book-rooms",
-          element: <BookRooms />,
+          element: <BookingRoom />,
         },
       ],
     },

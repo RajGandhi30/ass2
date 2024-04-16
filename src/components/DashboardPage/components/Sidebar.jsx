@@ -89,6 +89,21 @@ const Sidebar = ({ user_role }) => {
 
               items={[
                 {
+                  label: "Rooms List",
+                  key: "./rooms-list",
+                  // icon: <AppstoreOutlined />,
+                  // style: { margin: "1.5rem 0.5rem 1.5rem 0",
+                  //         width: "max-content",
+                  //       },
+                  className: "w-max cursor-pointer",
+                  style: {
+                    fontFamily: "Poppins",
+                    fontSize: "1.25rem",
+                    fontWeight: "200",
+                    margin: "1rem 0",
+                  },
+                },
+                {
                   label: "Book a Room",
                   key: "./book-rooms",
                   // icon: <AppstoreOutlined />,
