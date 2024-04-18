@@ -5,9 +5,7 @@ import Hero from "./components/Hero";
 import { Space } from "antd";
 
 const DashboardPage = () => {
-  // localStorage.setItem("user_role", "admin")
-  // let user_role = localStorage.getItem("user_role")
-  let user_role = "admin";
+  let user_role = "admi";
 
   return (
     <div className="flex flex-col w-[100vm] h-screen;">

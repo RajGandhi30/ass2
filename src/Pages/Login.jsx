@@ -2,23 +2,16 @@ import React, { useState } from "react";
 import { GoogleButton } from "react-google-button";
 import { useNavigate } from "react-router-dom";
 import {
-  //   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth, signUp, logIn } from "../firebase-login";
 
 const Login = () => {
-  // const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
-  // const registerUser = async () => {
-  //   await signUp(email, password);
-  //   setIsRegistering(false);
-  // };
 
   const loginUser = async () => {
     await signUp(email, password);
@@ -28,7 +21,6 @@ const Login = () => {
   const loginWithEmail = async () => {
     loginUser();
     navigate("/dashboard/rooms-list");
-    // await signInWithEmailAndPassword(auth, email, password);
   };
 
   const loginWithGoogle = async () => {
@@ -76,12 +68,8 @@ const Login = () => {
             </button>
             <div className="flex justify-center mt-4">
               <div className="go">
-                {/* <i className="fab fa-google"></i> */}
                 <GoogleButton className="" onClick={loginWithGoogle} />
               </div>
-              {/* <div className="fb">
-            <i className="fab fa-facebook"></i> Facebook
-          </div> */}
             </div>
           </form>
         </div>
