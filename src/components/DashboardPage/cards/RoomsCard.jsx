@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import pencil from "../../../assests/pencil.png";
-import { Modal, notification } from "antd";
 import RoomService from "../../../services/room.services";
 import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
-let expRoom = "";
+let expRoom = [];
+let roomTitle = "";
 
 const RoomsCard = ({ room, user_role }) => {
   const navigate = useNavigate();
@@ -12,9 +13,14 @@ const RoomsCard = ({ room, user_role }) => {
   const deleteRoom = async (id) => {
     console.log("Deleting room with id: " + id);
     await RoomService.deleteRoom(id);
+    notification.open({
+      message: `Room with title ${room.Title} deleted!`,
+    });
+    window.location.reload();
   };
 
   const updateRoom = () => {
+    // roomTitle;
     navigate(`/dashboard/update-details`);
   };
 
@@ -23,6 +29,7 @@ const RoomsCard = ({ room, user_role }) => {
       onClick={() => {
         if (user_role !== "admin") {
           expRoom = room;
+
           navigate(`/dashboard/book-rooms`);
         }
       }}
@@ -55,7 +62,12 @@ const RoomsCard = ({ room, user_role }) => {
         <div className="flex gap-5 justify-between mt-4 w-full text-sm">
           <div className="flex flex-col">
             <div className="flex flex-col px-2 text-zinc-600">
-              <div className="ml-0 pl-0 font-[590] text-neutral-800">
+              <div
+                className="ml-0 pl-0 font-[590] text-neutral-800"
+                onMouseEnter={() => {
+                  roomTitle = room.Title;
+                }}
+              >
                 {room.Title}
               </div>
               <div className="mt-1 text-wrap line-clamp-2 font-light">
@@ -88,5 +100,5 @@ const RoomsCard = ({ room, user_role }) => {
     </div>
   );
 };
-export { expRoom };
+export { expRoom, roomTitle };
 export default RoomsCard;
