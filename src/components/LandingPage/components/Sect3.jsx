@@ -4,9 +4,7 @@ const Sect3 = () => {
   return (
     <div className="flex flex-row">
       <div className="flex flex-col px-5 mt-24 w-full font-bold max-w-[1206px] text-zinc-700 max-md:mt-10 max-md:max-w-full m-auto">
-        <div className="text-2xl max-md:max-w-full">
-          Airbnb Plus Accommodations
-        </div>
+        <div className="text-2xl max-md:max-w-full">Accommodations</div>
         <div className="mt-3 text-base font-light max-md:max-w-full">
           A selection of accommodation verified according to quality and design
           criteria
@@ -18,11 +16,11 @@ const Sect3 = () => {
             className="object-cover absolute inset-0 size-full"
           />
           <div className="flex relative flex-col max-w-full w-[200px]">
-            <img
+            {/* <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/04319417f08c3d7738598437ca5b9eab5389dc5e1bc3727e34dd73fcde68fe43?apiKey=74578851356e4301ad9acd8b3a4ecadc&"
               className="self-center max-w-full aspect-square w-[124px]"
-            />
+            /> */}
             <div className="flex flex-col justify-center mt-8">
               <div className="flex gap-5 px-5 py-4 bg-white rounded">
                 <div className="flex-auto">DISCOVER ACCOMMODATION</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BookingService from "../../../services/bookings.services";
 import { db } from "../../../firebase-login";
-import { collection, query, where, getDocs, setDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import RoomService from "../../../services/room.services";
 import { expRoom } from "../cards/RoomsCard";
 import { notification } from "antd";
@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 const BookingRoom = () => {
   const navigate = useNavigate();
-  const allBookings = BookingService.getAllBookings();
   const [roomBooking, setRoomBooking] = useState({
     BookingId: "",
     bookingStatus: true,
@@ -21,26 +20,27 @@ const BookingRoom = () => {
     roomId: "",
     userId: "",
   });
-  const [name, setName] = useState("");
-  // const [room, setRoom] = useState("");
+  // const [name, setName] = useState("");
   let room = "";
+  let name;
 
   const retrieveRoomData = async () => {
-    // const q = query(collection(db, "rooms"), where("Title", "==", name));
-    // const querySnapshot = await getDocs(q);
-    // if (querySnapshot.empty) {
-    //   alert("No such room exists");
-    //   console.log("query " + name);
-    // } else {
-    //   console.log(querySnapshot.docs[0].data());
-    //   room = querySnapshot.docs[0].data();
-    //   console.log(room.Id);
-    setRoomBooking((prev) => ({
-      ...prev,
-      roomId: expRoom.Id,
-      userId: expRoom.roomOwner || "user1",
-    }));
-    // }
+    name = document.getElementById("Booking Room Title").value;
+    const q = query(collection(db, "rooms"), where("Title", "==", name));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      alert("No such room exists");
+      console.log("query " + name);
+    } else {
+      console.log(querySnapshot.docs[0].data());
+      room = querySnapshot.docs[0].data();
+      console.log(room.Id);
+      setRoomBooking((prev) => ({
+        ...prev,
+        roomId: room.Id,
+        userId: room.roomOwner,
+      }));
+    }
   };
 
   const updateBookingInfo = async (id) => {
@@ -52,56 +52,27 @@ const BookingRoom = () => {
   };
 
   useEffect(() => {
-    // console.log("useeffect " + roomBooking.BookingId);
     if (roomBooking.BookingId) {
       updateBookingInfo(roomBooking.BookingId);
-      // retrieveRoomData();
     }
-    // updateBookingInfo(roomBooking.BookingId);
-    // console.log(expRoom.Title);
   }, [roomBooking]);
 
-  const checkIfRoomBooked = async () => {
-    let isBooked = true;
-    if (expRoom.isAvailable == true) {
-      isBooked = false;
-    } else {
-      isBooked = true;
-    }
-    console.log(room);
-    return isBooked;
-  };
-
   const addBooking = async (roomBooking) => {
-    // if (!checkIfRoomBooked) {
-    if (!(await allBookings).includes(roomBooking)) {
-      const addBookingRef = await BookingService.addBooking(roomBooking);
-      console.log("Added Booking: ", addBookingRef);
-      setRoomBooking((prev) => ({
-        ...prev,
-        BookingId: addBookingRef.id,
-        bookingTime: new Date().toLocaleDateString(),
-      }));
-      notification.open({
-        message: `Successfully added booking for ${expRoom.Title}!`,
-      });
-      // await setDoc(
-      //   collection(db, "rooms", expRoom.Id),
-      //   { roomOwner: "user1" },
-      //   { merge: true }
-      // );
-      RoomService.updateRoom(
-        expRoom.Id,
-        { roomOwner: "user1", isAvailable: false },
-        { merge: true }
-      );
-      navigate("/dashboard/check-bookings");
-      // console.log(expRoom.Id);
-    } else {
-      notification.open({
-        message: `Room is already booked!`,
-      });
-    }
+    const addBookingRef = await BookingService.addBooking(roomBooking);
+    console.log("Added Booking: ", addBookingRef);
+    setRoomBooking((prev) => ({
+      ...prev,
+      BookingId: addBookingRef.id,
+      bookingTime: new Date().toLocaleDateString().replace("/", "-"),
+    }));
+    notification.open({
+      message: `Booking added successfully for ${expRoom.Title}!`,
+    });
+    await RoomService.updateRoom(expRoom.Id, {
+      ...expRoom,
+      roomOwner: "user1",
+    });
+    navigate("/dashboard/check-bookings");
   };
 
   return (
@@ -123,14 +94,12 @@ const BookingRoom = () => {
                   type="text"
                   placeholder="Enter Room Title"
                   onChange={(e) => {
-                    setName(e.target.value);
+                    name = e.target.value;
                   }}
                   id="Booking Room Title"
                   name="BookingRoomTitle"
-                  defaultValue={expRoom.Title}
-                  // value={expRoom.Title}
+                  value={expRoom.Title}
                   required
-                  // readOnly
                 />
               </label>
               <label
@@ -198,13 +167,7 @@ const BookingRoom = () => {
                 value="Book a Room"
                 onClick={() => {
                   retrieveRoomData();
-
-                  // const isRoomBooked = checkIfRoomBooked();
-                  // if (!isRoomBooked) {
                   addBooking(roomBooking);
-                  // } else {
-                  //   alert("Room is already booked for the selected dates");
-                  // }
                 }}
               >
                 Book a Room

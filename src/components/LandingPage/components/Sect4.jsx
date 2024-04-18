@@ -5,7 +5,7 @@ const Sect4 = () => {
     <div className="flex flex-row">
       <div className="flex flex-col px-5 mt-44 w-full max-w-[1205px] max-md:mt-10 max-md:max-w-full m-auto">
         <div className="text-2xl font-bold text-zinc-700 max-md:max-w-full">
-          Featured Airbnb Plus Destinations
+          Featured Rooms
         </div>
         <div className="mt-4 text-base font-light text-zinc-700 max-md:max-w-full">
           Multi-day trips organized by local experts with activities, meals and
@@ -22,11 +22,11 @@ const Sect4 = () => {
                     className="object-cover absolute inset-0 size-full"
                   />
                   <div className="flex relative justify-center items-center px-16 py-20 rounded-xl bg-black bg-opacity-10 max-md:px-5">
-                    <img
+                    {/* <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/19c316b7e5e9b3ceb6508d3d939f9cb8794d4469b5c140c1b5e32cb7d39b8551?apiKey=74578851356e4301ad9acd8b3a4ecadc&"
                       className="mt-2.5 mb-3 aspect-square w-[58px]"
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="mt-3 text-xs font-bold uppercase text-stone-500">
@@ -46,11 +46,11 @@ const Sect4 = () => {
                     className="object-cover absolute inset-0 size-full"
                   />
                   <div className="flex relative justify-center items-center px-16 py-20 rounded-xl bg-black bg-opacity-10 max-md:px-5">
-                    <img
+                    {/* <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/219b2d9de0e159855a1f57aef69f92f2853d8ad1674075ff938e80762d158e1b?apiKey=74578851356e4301ad9acd8b3a4ecadc&"
                       className="mt-2.5 mb-3 aspect-square w-[58px]"
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="mt-3 text-xs font-bold uppercase text-stone-500">
@@ -70,11 +70,11 @@ const Sect4 = () => {
                     className="object-cover absolute inset-0 size-full"
                   />
                   <div className="flex relative justify-center items-center px-16 py-20 rounded-xl bg-black bg-opacity-10 max-md:px-5">
-                    <img
+                    {/* <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/182ff01a7f975db92eab961ff43bcd009979cb416a0927439d1121a2849f53be?apiKey=74578851356e4301ad9acd8b3a4ecadc&"
                       className="mt-2.5 mb-3 aspect-square w-[58px]"
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="mt-3 text-xs font-bold uppercase text-stone-500">

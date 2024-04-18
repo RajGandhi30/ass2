@@ -1,4 +1,5 @@
 import * as React from "react";
+
 const listings = [
   {
     id: 1,
@@ -49,6 +50,7 @@ const listings = [
     price: "From 577€/person - 3 days",
   },
 ];
+
 const ListingCard = ({ listing }) => (
   <div className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full">
     {" "}
@@ -66,9 +68,12 @@ const ListingCard = ({ listing }) => (
           {" "}
           <div className="flex flex-col justify-center text-xs font-bold uppercase text-zinc-700">
             {" "}
-            <div className="justify-center px-2 py-3 rounded-sm border border-solid border-zinc-700">
+            <div
+              className="justify-center px-2 py-3 rounded-sm border border-solid border-zinc-700"
+              onClick={() => {}}
+            >
               {" "}
-              Superhost{" "}
+              Book Now{" "}
             </div>{" "}
           </div>{" "}
           <div className="my-auto text-xs text-neutral-500">

@@ -19,9 +19,6 @@ const Sect1 = () => {
             className="shrink-0 aspect-square w-[34px]"
           />
           <div className="flex gap-5 self-start mt-4 max-md:flex-wrap">
-            <div className="grow">French (FR)</div>
-            <div>EUR €</div>
-            <div>Become a host</div>
             <div className="flex-auto">Create your Experience</div>
             <div>Aide</div>
             <div>Inscription</div>
@@ -31,7 +28,7 @@ const Sect1 = () => {
         <div className="flex relative flex-col justify-center mt-20 mb-2 ml-14 max-w-full w-[391px] max-md:mt-10 max-md:ml-2.5">
           <div className="flex flex-col px-6 pt-10 pb-6 w-full bg-white rounded max-md:px-5">
             <div className="text-3xl font-medium text-zinc-700">
-              Book unique accommodations and activities.
+              Book unique accommodations with us
             </div>
             <div className="flex flex-col mt-6 whitespace-nowrap">
               <div className="text-xs font-bold uppercase text-zinc-700">
@@ -75,7 +72,7 @@ const Sect1 = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center self-end mt-6 max-w-full text-base font-bold text-center text-white whitespace-nowrap w-[146px]">
+            <div className="cursor-pointer flex flex-col justify-center self-end mt-6 max-w-full text-base font-bold text-center text-white whitespace-nowrap w-[146px]">
               <div
                 onClick={() => {
                   navigate("/login");

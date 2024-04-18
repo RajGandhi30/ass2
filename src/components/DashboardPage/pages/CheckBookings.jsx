@@ -1,80 +1,95 @@
 import React, { useState, useEffect } from "react";
-import RoomsList from "./RoomsList";
 import RoomService from "../../../services/room.services";
-import { db } from "../../../firebase-login";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { expAllRooms } from "./RoomsList";
 import BookingService from "../../../services/bookings.services";
-import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
 const CheckBookings = () => {
-  const [userBookings, setUserBookings] = useState([]);
-  const [userRooms, setUserRooms] = useState([]);
-  const [rendered, setRendered] = useState([]);
-  let allBookings = [];
+  const [allBookings, setAllBookings] = useState([]);
+  const [allRooms, setAllRooms] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getUserBookings();
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const getUserBookings = async () => {
-    const q = query(collection(db, "bookings"), where("userId", "==", "user1"));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      alert("You have no bookings");
-    } else {
-      const bookedRooms = [];
-      for (let doc of querySnapshot.docs) {
-        let bookingData = doc.data();
-        allBookings.push(bookingData);
-        setUserBookings(allBookings);
-        const roomData = await fetchRoomData(bookingData.roomId);
-        if (roomData && !bookedRooms.includes(roomData)) {
-          bookedRooms.push(roomData);
-        }
-      }
-      // console.log(userBookings);
-
-      setUserRooms(bookedRooms);
+  const fetchBookingData = async () => {
+    try {
+      setAllBookings(await BookingService.getAllBookings());
+    } catch (err) {
+      console.log("Error fetching bookings: ", err);
+      notification.open({
+        message: `Error fetching bookings`,
+      });
     }
   };
 
-  const fetchRoomData = async (roomId) => {
-    const roomData = await RoomService.getOneRoom(roomId);
-    return roomData;
+  const fetchRoomData = async () => {
+    try {
+      setAllRooms(await RoomService.getAllRooms());
+    } catch (err) {
+      console.log("Error fetching bookings: ", err);
+      notification.open({
+        message: `Error fetching bookings`,
+      });
+    }
   };
 
+  useEffect(() => {
+    const fetching = async () => {
+      fetchBookingData();
+      fetchRoomData();
+      setDataLoaded(true);
+    };
+
+    fetching();
+  }, []);
+
+  const userBookings = allBookings.filter(
+    (booking) => booking.userId === "user1"
+  );
+
   return (
-    <div key={"1"} id="cb">
-      {userRooms.map((room) => {
-        let currentBooking = null;
-
-        for (let booking of userBookings) {
-          if (booking.roomId === room.Id) {
-            currentBooking = booking;
-          }
-        }
-
-        return (
-          <div key={room.id}>
-            {currentBooking ? (
-              <BookingsCard
-                userRoom={room}
-                keyId={room.id}
-                currentBooking={currentBooking}
-              />
-            ) : (
+    <div>
+      <div key={"1"} id="cb">
+        {dataLoaded ? (
+          <div>
+            {userBookings.length === 0 && (
               <div className="text-2xl font-semibold text-blue-600">
-                {/* Sorry `${":("}` No bookings present */}
+                No Bookings present!
               </div>
             )}
+            {userBookings.map((userbooking) => {
+              let userRooms = [];
+
+              for (let r of allRooms) {
+                if (r.Id === userbooking.roomId && !userRooms.includes(r)) {
+                  userRooms.push(r);
+                  break;
+                }
+              }
+
+              let room = userRooms[0];
+              return (
+                <div>
+                  {room && (
+                    <div key={room.Id}>
+                      {userbooking ? (
+                        <BookingsCard
+                          userRoom={room}
+                          // keyId={room.Id}
+                          currentBooking={userbooking}
+                        />
+                      ) : (
+                        <div className="text-2xl font-semibold text-blue-600">
+                          Sorry ${":("} No bookings present
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+        ) : (
+          <div>Sorry couldn't load data</div>
+        )}
+      </div>
     </div>
   );
 };
@@ -82,13 +97,9 @@ const CheckBookings = () => {
 export default CheckBookings;
 
 const BookingsCard = ({ userRoom, currentBooking, keyId }) => {
-  const navigate = useNavigate();
   const deleteBooking = async (bookingId) => {
     await BookingService.deleteBooking(bookingId);
-    navigate("/dashboard/rooms-list");
-
-    navigate("/dashboard/check-bookings");
-    console.log("deleting booking!");
+    window.location.reload();
   };
 
   return (

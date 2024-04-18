@@ -7,7 +7,7 @@ import Sect5 from "./components/Sect5";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="mb-20">
       <Sect1 />
       <Sect2 />
       <Sect3 />
