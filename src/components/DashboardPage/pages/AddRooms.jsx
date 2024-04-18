@@ -39,7 +39,6 @@ const AddRooms = () => {
         description: "Please try again.",
       });
     } else {
-      // setRoom({ ...room, Id: nanoid(12) });
       const docRef = await RoomService.addRooms(room);
       alert("Room added successfully!");
       console.log(docRef.id);
@@ -53,7 +52,6 @@ const AddRooms = () => {
         setRoom({ ...room, isAvailable: false });
       }
       updateRoomInfo(id);
-      // RoomServices.addRooms(room);
 
       notification.open({
         message: `Successfully added room ${room.Title}!`,
@@ -159,7 +157,6 @@ const AddRooms = () => {
                 className="bg-[rgba(255,255,255,0.07)] border border-blue-600 text-[0.8rem] font-light mt-2 mr-4 mb-0 p-4 rounded-[5px] placeholder:text-gray-400 placeholder:text-[0.9rem]"
                 type="checkbox"
                 value={room.isAvailable}
-                // onChange={(e) => setRoom({ ...room, isAvailable: true })}
                 id="RoomIsAvailbale"
                 name="RoomIsAvailable"
                 required
