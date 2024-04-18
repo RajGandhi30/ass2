@@ -9,6 +9,7 @@ import {
 } from "./components/DashboardPage/pages";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
 import BookingRoom from "./components/DashboardPage/pages/BookingRoom";
+import UpdateDetails from "./components/DashboardPage/pages/UpdateDetails";
 
 function App() {
   const router = createBrowserRouter([
@@ -39,6 +40,10 @@ function App() {
         {
           path: "/dashboard/book-rooms",
           element: <BookingRoom />,
+        },
+        {
+          path: "/dashboard/update-details",
+          element: <UpdateDetails />,
         },
       ],
     },
