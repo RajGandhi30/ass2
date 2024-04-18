@@ -20,7 +20,6 @@ const BookingRoom = () => {
     roomId: "",
     userId: "",
   });
-  // const [name, setName] = useState("");
   let room = "";
   let name;
 
